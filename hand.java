@@ -2,6 +2,8 @@ import java.util.Arrays;
 
 public class hand {
     private String[] specificHand;
+    private int handPower;
+
 
     public hand(String[] uniqueHand) {
         this.specificHand = uniqueHand;
@@ -11,7 +13,9 @@ public class hand {
         }
     }
 
-
+    public int getHandPower() {
+        return handPower;
+    }
 
     public String handStrengthCalc() {
         int count[] = {0, 0, 0, 0};
@@ -22,6 +26,7 @@ public class hand {
             }
         }
         if (count[0] == 4){
+            this.handPower = 6;
             return " Five of a kind";
         }
         for (int i = 2; i < specificHand.length; i++) {
@@ -42,24 +47,36 @@ public class hand {
         for (int i = 0; i < count.length; i++) {
             finalCount += count[i];
             if(count[i] == 3) {
+                this.handPower = 5;
                 return " four of a kind";
             }
         }
         if (finalCount == 4){
+            this.handPower = 4;
             return " Full house";
         }
         if(finalCount == 3){
+            this.handPower = 3;
             return " three of a kind";
         }
         if(finalCount == 2){
+            this.handPower = 2;
             return " two pair";
         }
         if (finalCount == 1){
+            this.handPower = 1;
             return " pair";
         }
         else {
+            this.handPower = 0;
             return " high card";
         }
+    }
+    public int compareHands(hand a, hand b){
+
 
     }
+
+
+
 }

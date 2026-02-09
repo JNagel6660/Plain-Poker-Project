@@ -28,15 +28,49 @@ public class Main {
         System.out.println(fileData);
         String[] lines = fileData.split("\n");
 
+        hand[] allHands = new hand[lines.length];
+        int[] rankings = new int[lines.length];
 
-        for (String line : lines) {
+
+        int lineNumber = 0;
+        int rankDummy;
+        for (String line : lines ) {
             String[] numbers = line.split("\\|");
             System.out.println(Arrays.toString(numbers));
             String[] cards = numbers[0].split(",");
             String bid = numbers[1];
             hand h = new hand(cards);
             h.handStrengthCalc();
+            allHands[lineNumber] = h;
             System.out.println(h.handStrengthCalc());
+            for (int i = lineNumber; i < allHands.length; i++) {
+                rankings[i] = lines.length - i;
+                if (lineNumber == 0){
+                    i += allHands.length;
+                } else{
+                    // take this one hand and compare it to the previous x:
+                    for (int j = lineNumber - 1; j > 0; j--) {
+                        if(allHands[j].getHandPower() > allHands[lineNumber].getHandPower() ){
+                            j = 0;
+                        } else if (allHands[j].getHandPower() == allHands[lineNumber].getHandPower()){
+
+
+                        } else {
+                            // make the hand being looked at trade ranks with the previous hand.
+                            rankDummy = rankings[lineNumber];
+                            rankings[lineNumber] = rankings[j];
+                            rankings[j] = lineNumber;
+
+                        }
+
+                    }
+
+                    }
+
+                }
+
+
+
             if (h.handStrengthCalc().equals(" Five of a kind")){
                 fiveOAK += 1;
             }
@@ -58,7 +92,11 @@ public class Main {
             if(h.handStrengthCalc().equals(" high card")){
                 highCard += 1;
             }
+
+            lineNumber++;
         }
+
+        System.out.println(Arrays.toString(rankings));
         System.out.println("Number of five of a kinds = " + fiveOAK);
         System.out.println("Number of four of a kinds = " + fourOAK);
         System.out.println("Number of full houses = " + fullHouse);
@@ -66,7 +104,5 @@ public class Main {
         System.out.println("Number of two pairs = " + twoPair);
         System.out.println("Number of pairs = " + pair);
         System.out.println("Number of high cards = " + highCard);
-
-
     }
 }
